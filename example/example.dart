@@ -6,6 +6,7 @@ void main() async {
   final networkInfo = NetworkInfo.fromSingleHost(
     bech32Hrp: 'desmos',
     host: 'localhost',
+    slip44: 852,
   );
 
   final mnemonic = [

@@ -13,8 +13,6 @@ import 'package:pointycastle/export.dart';
 /// The associated [networkInfo] will be used when computing the [bech32Address]
 /// associated with the wallet.
 class Wallet extends Equatable {
-  static const derivationPath = "m/44'/118'/0'/0/0";
-
   final Uint8List address;
   final Uint8List privateKey;
   final Uint8List publicKey;
@@ -32,9 +30,7 @@ class Wallet extends Equatable {
   /// [networkInfo].
   factory Wallet.derive(
     List<String> mnemonic,
-    NetworkInfo networkInfo, {
-    String derivationPath = derivationPath,
-  }) {
+    NetworkInfo networkInfo) {
     // Validate the mnemonic
     if (!Bip39.validateMnemonic(mnemonic)) {
       throw Exception('Invalid mnemonic');
@@ -45,7 +41,7 @@ class Wallet extends Equatable {
     final root = Bip32.fromSeed(seed);
 
     // Get the node from the derivation path
-    final derivedNode = root.derivePath(derivationPath);
+    final derivedNode = root.derivePath( getDerivationPath(networkInfo) );
 
     // Get the curve data
     final secp256k1 = ECCurve_secp256k1();
@@ -55,12 +51,19 @@ class Wallet extends Equatable {
     final bigInt = BigInt.parse(HEX.encode(derivedNode.privateKey!), radix: 16);
     final curvePoint = point * bigInt;
 
-    // Get the public key
-    final publicKeyBytes = curvePoint!.getEncoded();
+    // Get the public key and the address
+    var publicKeyBytes;
+    var address;
 
-    // Get the address
-    final sha256Digest = SHA256Digest().process(publicKeyBytes);
-    final address = RIPEMD160Digest().process(sha256Digest);
+    if(networkInfo.slip44 == 60) {
+      publicKeyBytes = curvePoint!.getEncoded(false);
+      final keccakAddress = KeccakDigest(256).process(publicKeyBytes.sublist(1, publicKeyBytes.length));
+      address = keccakAddress.sublist(keccakAddress.length-20, keccakAddress.length);
+    } else {
+      publicKeyBytes = curvePoint!.getEncoded();
+      final sha256Digest = SHA256Digest().process(publicKeyBytes);
+      address = RIPEMD160Digest().process(sha256Digest);
+    }
 
     // Return the key bytes
     return Wallet(
@@ -74,13 +77,10 @@ class Wallet extends Equatable {
   /// Generated a new random [Wallet] using the specified [networkInfo]
   /// and the optional [derivationPath].
   factory Wallet.random(
-    NetworkInfo networkInfo, {
-    String derivationPath = derivationPath,
-  }) {
+    NetworkInfo networkInfo) {
     return Wallet.derive(
       Bip39.generateMnemonic(strength: 256),
-      networkInfo,
-      derivationPath: derivationPath,
+      networkInfo
     );
   }
 
@@ -124,12 +124,19 @@ class Wallet extends Equatable {
     final bigInt = BigInt.parse(HEX.encode(privateKey), radix: 16);
     final curvePoint = point * bigInt;
 
-    // Get the public key
-    final publicKeyBytes = curvePoint!.getEncoded();
+    // Get the public key and the address
+    var publicKeyBytes;
+    var address;
 
-    // Get the address
-    final sha256Digest = SHA256Digest().process(publicKeyBytes);
-    final address = RIPEMD160Digest().process(sha256Digest);
+    if(networkInfo.slip44 == 60) {
+      publicKeyBytes = curvePoint!.getEncoded(false);
+      final keccakAddress = KeccakDigest(256).process(publicKeyBytes.sublist(1, publicKeyBytes.length));
+      address = keccakAddress.sublist(keccakAddress.length-20, keccakAddress.length);
+    } else {
+      publicKeyBytes = curvePoint!.getEncoded();
+      final sha256Digest = SHA256Digest().process(publicKeyBytes);
+      address = RIPEMD160Digest().process(sha256Digest);
+    }
 
     return Wallet(
       address: address,
@@ -142,6 +149,10 @@ class Wallet extends Equatable {
   /// Returns the associated [address] as a Bech32 string.
   String get bech32Address {
     return Bech32Encoder.encode(networkInfo.bech32Hrp, address);
+  }
+
+  static String getDerivationPath(NetworkInfo networkInfo) {
+    return "m/44'/${networkInfo.slip44}'/0'/0/0";
   }
 
   /// Returns the associated [privateKey] as an [ECPrivateKey] instance.

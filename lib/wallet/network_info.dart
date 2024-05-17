@@ -160,20 +160,27 @@ class NetworkInfo extends Equatable {
   @JsonKey(name: 'grpcInfo')
   final GRPCInfo grpcInfo;
 
+  /// Slip44 to derive the correct address
+  @JsonKey(name: 'slip44', required: true)
+  final int slip44;
+
   NetworkInfo({
     required this.bech32Hrp,
     required this.lcdInfo,
     required this.grpcInfo,
+    required this.slip44,
   });
 
   factory NetworkInfo.fromSingleHost({
     required String bech32Hrp,
     required String host,
+    required int slip44,
   }) {
     return NetworkInfo(
       bech32Hrp: bech32Hrp,
       lcdInfo: LCDInfo(host: host),
       grpcInfo: GRPCInfo(host: host),
+      slip44: slip44,
     );
   }
 
