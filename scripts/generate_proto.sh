@@ -6,10 +6,10 @@ set -eo pipefail
 OUT=lib/proto
 PROTO=proto
 THIRD_PARTY=third_party
-COSMOS_VERSION=0.45.4
+COSMOS_VERSION=0.46.3
 
 ## Download the Protobuf files
-source scripts/get_proto.sh $PROTO $THIRD_PARTY $OUT $COSMOS_VERSION
+#source scripts/get_proto.sh $PROTO $THIRD_PARTY $OUT $COSMOS_VERSION
 
 # Generate the third party Protobuf implementations
 PROTOC="protoc --dart_out=grpc:$OUT -I$THIRD_PARTY/proto"

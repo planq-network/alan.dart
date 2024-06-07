@@ -26,12 +26,6 @@ class QueryClient extends $grpc.Client {
       ($0.QueryAllBalancesRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.QueryAllBalancesResponse.fromBuffer(value));
-  static final _$spendableBalances = $grpc.ClientMethod<
-          $0.QuerySpendableBalancesRequest, $0.QuerySpendableBalancesResponse>(
-      '/cosmos.bank.v1beta1.Query/SpendableBalances',
-      ($0.QuerySpendableBalancesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) =>
-          $0.QuerySpendableBalancesResponse.fromBuffer(value));
   static final _$totalSupply = $grpc.ClientMethod<$0.QueryTotalSupplyRequest,
           $0.QueryTotalSupplyResponse>(
       '/cosmos.bank.v1beta1.Query/TotalSupply',
@@ -78,12 +72,6 @@ class QueryClient extends $grpc.Client {
       $0.QueryAllBalancesRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$allBalances, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.QuerySpendableBalancesResponse> spendableBalances(
-      $0.QuerySpendableBalancesRequest request,
-      {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$spendableBalances, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.QueryTotalSupplyResponse> totalSupply(
@@ -139,15 +127,6 @@ abstract class QueryServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.QueryAllBalancesRequest.fromBuffer(value),
         ($0.QueryAllBalancesResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.QuerySpendableBalancesRequest,
-            $0.QuerySpendableBalancesResponse>(
-        'SpendableBalances',
-        spendableBalances_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $0.QuerySpendableBalancesRequest.fromBuffer(value),
-        ($0.QuerySpendableBalancesResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.QueryTotalSupplyRequest,
             $0.QueryTotalSupplyResponse>(
         'TotalSupply',
@@ -206,12 +185,6 @@ abstract class QueryServiceBase extends $grpc.Service {
     return allBalances(call, await request);
   }
 
-  $async.Future<$0.QuerySpendableBalancesResponse> spendableBalances_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.QuerySpendableBalancesRequest> request) async {
-    return spendableBalances(call, await request);
-  }
-
   $async.Future<$0.QueryTotalSupplyResponse> totalSupply_Pre(
       $grpc.ServiceCall call,
       $async.Future<$0.QueryTotalSupplyRequest> request) async {
@@ -244,8 +217,6 @@ abstract class QueryServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.QueryBalanceRequest request);
   $async.Future<$0.QueryAllBalancesResponse> allBalances(
       $grpc.ServiceCall call, $0.QueryAllBalancesRequest request);
-  $async.Future<$0.QuerySpendableBalancesResponse> spendableBalances(
-      $grpc.ServiceCall call, $0.QuerySpendableBalancesRequest request);
   $async.Future<$0.QueryTotalSupplyResponse> totalSupply(
       $grpc.ServiceCall call, $0.QueryTotalSupplyRequest request);
   $async.Future<$0.QuerySupplyOfResponse> supplyOf(

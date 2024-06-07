@@ -51,7 +51,7 @@ class GRPCInfo extends Equatable {
   GRPCInfo({
     required this.host,
     this.port = 9090,
-    this.credentials = const ChannelCredentials.insecure(),
+    this.credentials = const ChannelCredentials.secure(),
     this.webHost,
     this.webPort = 443,
     this.webTransportSecure = true,

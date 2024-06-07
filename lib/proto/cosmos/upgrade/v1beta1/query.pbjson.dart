@@ -51,25 +51,23 @@ const QueryUpgradedConsensusStateRequest$json = const {
   '2': const [
     const {'1': 'last_height', '3': 1, '4': 1, '5': 3, '10': 'lastHeight'},
   ],
-  '7': const {'3': true},
 };
 
 /// Descriptor for `QueryUpgradedConsensusStateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queryUpgradedConsensusStateRequestDescriptor = $convert.base64Decode('CiJRdWVyeVVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGVSZXF1ZXN0Eh8KC2xhc3RfaGVpZ2h0GAEgASgDUgpsYXN0SGVpZ2h0OgIYAQ==');
+final $typed_data.Uint8List queryUpgradedConsensusStateRequestDescriptor = $convert.base64Decode('CiJRdWVyeVVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGVSZXF1ZXN0Eh8KC2xhc3RfaGVpZ2h0GAEgASgDUgpsYXN0SGVpZ2h0');
 @$core.Deprecated('Use queryUpgradedConsensusStateResponseDescriptor instead')
 const QueryUpgradedConsensusStateResponse$json = const {
   '1': 'QueryUpgradedConsensusStateResponse',
   '2': const [
     const {'1': 'upgraded_consensus_state', '3': 2, '4': 1, '5': 12, '10': 'upgradedConsensusState'},
   ],
-  '7': const {'3': true},
   '9': const [
     const {'1': 1, '2': 2},
   ],
 };
 
 /// Descriptor for `QueryUpgradedConsensusStateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queryUpgradedConsensusStateResponseDescriptor = $convert.base64Decode('CiNRdWVyeVVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGVSZXNwb25zZRI4Chh1cGdyYWRlZF9jb25zZW5zdXNfc3RhdGUYAiABKAxSFnVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGU6AhgBSgQIARAC');
+final $typed_data.Uint8List queryUpgradedConsensusStateResponseDescriptor = $convert.base64Decode('CiNRdWVyeVVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGVSZXNwb25zZRI4Chh1cGdyYWRlZF9jb25zZW5zdXNfc3RhdGUYAiABKAxSFnVwZ3JhZGVkQ29uc2Vuc3VzU3RhdGVKBAgBEAI=');
 @$core.Deprecated('Use queryModuleVersionsRequestDescriptor instead')
 const QueryModuleVersionsRequest$json = const {
   '1': 'QueryModuleVersionsRequest',

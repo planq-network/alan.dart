@@ -10,7 +10,7 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'authz.pb.dart' as $5;
-import '../../../google/protobuf/any.pb.dart' as $3;
+import '../../../google/protobuf/any.pb.dart' as $2;
 
 class MsgGrant extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MsgGrant', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'cosmos.authz.v1beta1'), createEmptyInstance: create)
@@ -133,14 +133,14 @@ class MsgExecResponse extends $pb.GeneratedMessage {
 class MsgExec extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MsgExec', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'cosmos.authz.v1beta1'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'grantee')
-    ..pc<$3.Any>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'msgs', $pb.PbFieldType.PM, subBuilder: $3.Any.create)
+    ..pc<$2.Any>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'msgs', $pb.PbFieldType.PM, subBuilder: $2.Any.create)
     ..hasRequiredFields = false
   ;
 
   MsgExec._() : super();
   factory MsgExec({
     $core.String? grantee,
-    $core.Iterable<$3.Any>? msgs,
+    $core.Iterable<$2.Any>? msgs,
   }) {
     final _result = create();
     if (grantee != null) {
@@ -182,7 +182,7 @@ class MsgExec extends $pb.GeneratedMessage {
   void clearGrantee() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<$3.Any> get msgs => $_getList(1);
+  $core.List<$2.Any> get msgs => $_getList(1);
 }
 
 class MsgGrantResponse extends $pb.GeneratedMessage {
