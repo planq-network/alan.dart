@@ -146,6 +146,14 @@ class Wallet extends Equatable {
     );
   }
 
+  /// Returns the publicKey after RIPEMD160 hashing.
+  /// BEWARE: This ignores the slip44 and will return an incorrect address for Ethereum chains.
+  Uint8List getCosmosAddressUnsafe() {
+    final sha256Digest = SHA256Digest().process(this.publicKey);
+    var address = RIPEMD160Digest().process(sha256Digest);
+    return address;
+  }
+
   /// Returns the associated [address] as a Bech32 string.
   String get bech32Address {
     return Bech32Encoder.encode(networkInfo.bech32Hrp, address);
