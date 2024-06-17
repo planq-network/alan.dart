@@ -6,6 +6,7 @@ void main() {
     final info = NetworkInfo.fromSingleHost(
       bech32Hrp: 'test',
       host: 'test.example.com',
+      slip44: 118,
     );
     final json = info.toJson();
     final fromJson = NetworkInfo.fromJson(json);

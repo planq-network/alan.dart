@@ -27,6 +27,7 @@ void main() {
   final networkInfo = NetworkInfo.fromSingleHost(
     bech32Hrp: 'cosmos',
     host: 'test',
+    slip44: 118,
   );
   final mnemonic = [
     'sibling',
