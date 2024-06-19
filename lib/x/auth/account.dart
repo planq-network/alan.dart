@@ -2,6 +2,8 @@ import 'package:alan/alan.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:alan/proto/cosmos/auth/v1beta1/auth.pb.dart' as auth;
 
+import '../../proto/ethermint/types/v1/account.pb.dart' as ethermint;
+
 abstract class AccountI {
   String get address;
 
@@ -40,6 +42,37 @@ class BaseAccount extends AccountI {
   static BaseAccount fromAny(Any any) {
     final account = auth.BaseAccount.fromBuffer(any.value);
     return BaseAccount(account);
+  }
+}
+
+class EthAccount extends AccountI {
+  final ethermint.EthAccount account;
+
+  @override
+  String get address {
+    return account.baseAccount.address;
+  }
+
+  @override
+  Any get pubKey {
+    return account.baseAccount.pubKey;
+  }
+
+  @override
+  Int64 get accountNumber {
+    return account.baseAccount.accountNumber;
+  }
+
+  @override
+  Int64 get sequence {
+    return account.baseAccount.sequence;
+  }
+
+  EthAccount(this.account);
+
+  static EthAccount fromAny(Any any) {
+    final account = ethermint.EthAccount.fromBuffer(any.value);
+    return EthAccount(account);
   }
 }
 

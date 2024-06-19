@@ -35,6 +35,10 @@ class Codec {
       BaseAccount.fromAny,
     ));
     _accountImpls.add(AccountImpl(
+      'EthAccount',
+      EthAccount.fromAny,
+    ));
+    _accountImpls.add(AccountImpl(
       'ModuleAccount',
       ModuleAccount.fromAny,
     ));
