@@ -197,7 +197,10 @@ class Wallet extends Equatable {
   /// private key associated with this wallet, returning the signature
   /// encoded as a 64 bytes array.
   Uint8List sign(Uint8List data) {
-    final hash = SHA256Digest().process(data);
+    var hash = SHA256Digest().process(data);
+    if(networkInfo.slip44 == 60) {
+      hash = KeccakDigest(256).process(data);
+    }
     final ecdsaSigner = ECDSASigner(null, HMac(SHA256Digest(), 64))
       ..init(true, PrivateKeyParameter(_ecPrivateKey));
 
