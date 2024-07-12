@@ -59,6 +59,7 @@ class Wallet extends Equatable {
       publicKeyBytes = curvePoint!.getEncoded(false);
       final keccakAddress = KeccakDigest(256).process(publicKeyBytes.sublist(1, publicKeyBytes.length));
       address = keccakAddress.sublist(keccakAddress.length-20, keccakAddress.length);
+      publicKeyBytes = curvePoint!.getEncoded();
     } else {
       publicKeyBytes = curvePoint!.getEncoded();
       final sha256Digest = SHA256Digest().process(publicKeyBytes);

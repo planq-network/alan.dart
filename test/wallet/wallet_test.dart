@@ -164,7 +164,7 @@ void main() {
   });
 
   test('derive with different derivation path works properly', () {
-    final info = NetworkInfo.fromSingleHost(bech32Hrp: 'desmos', host: '', slip44: 118);
+    final info = NetworkInfo.fromSingleHost(bech32Hrp: 'desmos', host: '', slip44: 852);
     final mnemonic = [
       'roast',
       'stomach',

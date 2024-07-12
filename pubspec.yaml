@@ -19,7 +19,7 @@ dependencies:
   json_annotation: ^4.4.0
   json_serializable: ^6.2.0
   meta: ^1.3.0
-  pointycastle: ^3.0.1
+  pointycastle: ^3.9.1
   protobuf: ^2.0.0
 
 dev_dependencies:
