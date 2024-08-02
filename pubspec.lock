@@ -60,10 +60,11 @@ packages:
   bip39:
     dependency: "direct main"
     description:
-      name: bip39
-      sha256: de1ee27ebe7d96b84bb3a04a4132a0a3007dcdd5ad27dd14aa87a29d97c45edc
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: daf5ef31c52c291ab7bc92e6f86b4f7fd825b09c
+      url: "https://github.com/planq-network/bip39.git"
+    source: git
     version: "1.0.6"
   boolean_selector:
     dependency: transitive
@@ -666,4 +667,4 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.3.4 <4.0.0"

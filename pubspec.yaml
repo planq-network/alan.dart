@@ -9,7 +9,10 @@ dependencies:
   analyzer: ^5.12.0
   asn1lib: ^1.0.0
   bech32: ^0.2.0
-  bip39: ^1.0.6
+  bip39:
+    git:
+     url: https://github.com/planq-network/bip39.git
+     ref: master
   convert: ^3.0.0
   equatable: ^2.0.0
   fixnum: ^1.0.0
