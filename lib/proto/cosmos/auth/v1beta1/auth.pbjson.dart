@@ -21,7 +21,7 @@ const BaseAccount$json = const {
 };
 
 /// Descriptor for `BaseAccount`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List baseAccountDescriptor = $convert.base64Decode('CgtCYXNlQWNjb3VudBIYCgdhZGRyZXNzGAEgASgJUgdhZGRyZXNzElwKB3B1Yl9rZXkYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55Qi3q3h8UcHVibGljX2tleSxvbWl0ZW1wdHny3h8ReWFtbDoicHVibGljX2tleSJSBnB1YktleRJACg5hY2NvdW50X251bWJlchgDIAEoBEIZ8t4fFXlhbWw6ImFjY291bnRfbnVtYmVyIlINYWNjb3VudE51bWJlchIaCghzZXF1ZW5jZRgEIAEoBFIIc2VxdWVuY2U6GIigHwCYoB8A6KAfANK0LQhBY2NvdW50SQ==');
+final $typed_data.Uint8List baseAccountDescriptor = $convert.base64Decode('CgtCYXNlQWNjb3VudBIYCgdhZGRyZXNzGAEgASgJUgdhZGRyZXNzElwKB3B1Yl9rZXkYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55Qi3q3h8UcHVibGljX2tleSxvbWl0ZW1wdHny3h8ReWFtbDoicHVibGljX2tleSJSBnB1YktleRJACg5hY2NvdW50X251bWJlchgDIAEoBEIZ8t4fFXlhbWw6ImFjY291bnRfbnVtYmVyIlINYWNjb3VudE51bWJlchIaCghzZXF1ZW5jZRgEIAEoBFIIc2VxdWVuY2U6GIigHwCYoB8A6KAfAMq0LQhBY2NvdW50SQ==');
 @$core.Deprecated('Use moduleAccountDescriptor instead')
 const ModuleAccount$json = const {
   '1': 'ModuleAccount',
@@ -34,7 +34,7 @@ const ModuleAccount$json = const {
 };
 
 /// Descriptor for `ModuleAccount`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List moduleAccountDescriptor = $convert.base64Decode('Cg1Nb2R1bGVBY2NvdW50EmAKDGJhc2VfYWNjb3VudBgBIAEoCzIgLmNvc21vcy5hdXRoLnYxYmV0YTEuQmFzZUFjY291bnRCG9DeHwHy3h8TeWFtbDoiYmFzZV9hY2NvdW50IlILYmFzZUFjY291bnQSEgoEbmFtZRgCIAEoCVIEbmFtZRIgCgtwZXJtaXNzaW9ucxgDIAMoCVILcGVybWlzc2lvbnM6GoigHwCYoB8A0rQtDk1vZHVsZUFjY291bnRJ');
+final $typed_data.Uint8List moduleAccountDescriptor = $convert.base64Decode('Cg1Nb2R1bGVBY2NvdW50EmAKDGJhc2VfYWNjb3VudBgBIAEoCzIgLmNvc21vcy5hdXRoLnYxYmV0YTEuQmFzZUFjY291bnRCG9DeHwHy3h8TeWFtbDoiYmFzZV9hY2NvdW50IlILYmFzZUFjY291bnQSEgoEbmFtZRgCIAEoCVIEbmFtZRIgCgtwZXJtaXNzaW9ucxgDIAMoCVILcGVybWlzc2lvbnM6GoigHwCYoB8AyrQtDk1vZHVsZUFjY291bnRJ');
 @$core.Deprecated('Use paramsDescriptor instead')
 const Params$json = const {
   '1': 'Params',

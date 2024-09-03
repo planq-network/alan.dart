@@ -61,7 +61,7 @@ const TextProposal$json = const {
 };
 
 /// Descriptor for `TextProposal`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List textProposalDescriptor = $convert.base64Decode('CgxUZXh0UHJvcG9zYWwSFAoFdGl0bGUYASABKAlSBXRpdGxlEiAKC2Rlc2NyaXB0aW9uGAIgASgJUgtkZXNjcmlwdGlvbjoP0rQtB0NvbnRlbnTooB8B');
+final $typed_data.Uint8List textProposalDescriptor = $convert.base64Decode('CgxUZXh0UHJvcG9zYWwSFAoFdGl0bGUYASABKAlSBXRpdGxlEiAKC2Rlc2NyaXB0aW9uGAIgASgJUgtkZXNjcmlwdGlvbjoPyrQtB0NvbnRlbnTooB8B');
 @$core.Deprecated('Use depositDescriptor instead')
 const Deposit$json = const {
   '1': 'Deposit',

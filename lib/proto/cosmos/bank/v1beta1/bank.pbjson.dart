@@ -66,7 +66,7 @@ const Supply$json = const {
 };
 
 /// Descriptor for `Supply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List supplyDescriptor = $convert.base64Decode('CgZTdXBwbHkSYQoFdG90YWwYASADKAsyGS5jb3Ntb3MuYmFzZS52MWJldGExLkNvaW5CMMjeHwCq3x8oZ2l0aHViLmNvbS9jb3Ntb3MvY29zbW9zLXNkay90eXBlcy5Db2luc1IFdG90YWw6RhgB6KAfAYigHwDStC04KmdpdGh1Yi5jb20vY29zbW9zL2Nvc21vcy1zZGsveC9iYW5rL2xlZ2FjeS92MDQwLlN1cHBseUk=');
+final $typed_data.Uint8List supplyDescriptor = $convert.base64Decode('CgZTdXBwbHkSYQoFdG90YWwYASADKAsyGS5jb3Ntb3MuYmFzZS52MWJldGExLkNvaW5CMMjeHwCq3x8oZ2l0aHViLmNvbS9jb3Ntb3MvY29zbW9zLXNkay90eXBlcy5Db2luc1IFdG90YWw6RhgB6KAfAYigHwDKtC04KmdpdGh1Yi5jb20vY29zbW9zL2Nvc21vcy1zZGsveC9iYW5rL2xlZ2FjeS92MDQwLlN1cHBseUk=');
 @$core.Deprecated('Use denomUnitDescriptor instead')
 const DenomUnit$json = const {
   '1': 'DenomUnit',
