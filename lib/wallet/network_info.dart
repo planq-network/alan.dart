@@ -1,103 +1,8 @@
 // ignore_for_file: implementation_imports
 import 'package:equatable/equatable.dart';
-import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'network_info.g.dart';
-
-const _channelCredentialSecure = 'secure';
-const _channelCredentialInsecure = 'insecure';
-
-Object channelCredentialsToJson(ChannelCredentials credentials) {
-  if (credentials.isSecure) {
-    return _channelCredentialSecure;
-  }
-  return _channelCredentialInsecure;
-}
-
-ChannelCredentials channelOptionsFromJson(String value) {
-  if (value == _channelCredentialInsecure) {
-    return ChannelCredentials.insecure();
-  }
-  return ChannelCredentials.secure();
-}
-
-/// Contains the information about the GRPC endpoint
-@JsonSerializable(explicitToJson: true)
-class GRPCInfo extends Equatable {
-  @JsonKey(name: 'host', required: true)
-  final String host;
-
-  @JsonKey(name: 'web_host', required: false)
-  final String? webHost;
-
-  @JsonKey(name: 'web_port', defaultValue: 443)
-  final int webPort;
-
-  @JsonKey(name: 'web_transport_secure', defaultValue: true)
-  final bool webTransportSecure;
-
-  @JsonKey(name: 'port', defaultValue: 9090)
-  final int port;
-
-  @JsonKey(
-    name: 'channel_credentials',
-    fromJson: channelOptionsFromJson,
-    toJson: channelCredentialsToJson,
-  )
-  final ChannelCredentials credentials;
-
-  GRPCInfo({
-    required this.host,
-    this.port = 9090,
-    this.credentials = const ChannelCredentials.secure(),
-    this.webHost,
-    this.webPort = 443,
-    this.webTransportSecure = true,
-  });
-
-  /// Creates a new [ClientChannel] using the optional given options.
-  GrpcOrGrpcWebClientChannel getChannel() {
-    final finaleWebHost = webHost ?? host;
-    return GrpcOrGrpcWebClientChannel.grpc(
-      host.replaceFirst(RegExp('http(s)?://'), ''),
-      port: port,
-      options: ChannelOptions(credentials: ChannelCredentials.secure()),
-    );
-  }
-
-  factory GRPCInfo.fromJson(Map<String, dynamic> json) {
-    return _$GRPCInfoFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() {
-    return _$GRPCInfoToJson(this);
-  }
-
-  @override
-  List<Object?> get props {
-    return [
-      host,
-      port,
-      credentials.isSecure,
-      webHost,
-      webPort,
-      webTransportSecure
-    ];
-  }
-
-  @override
-  String toString() {
-    return 'GRPCInfo {'
-        'host: $host, '
-        'port: $port '
-        'webHost: $webHost, '
-        'webPort: $webPort, '
-        'webTransportSecure: $webTransportSecure, '
-        '}';
-  }
-}
 
 /// Contains the information about the LCD endpoint
 @JsonSerializable(explicitToJson: true)
@@ -153,10 +58,6 @@ class NetworkInfo extends Equatable {
   @JsonKey(name: 'lcdInfo')
   final LCDInfo lcdInfo;
 
-  /// Information about the gRPC endpoint to use
-  @JsonKey(name: 'grpcInfo')
-  final GRPCInfo grpcInfo;
-
   /// Slip44 to derive the correct address
   @JsonKey(name: 'slip44', required: true)
   final int slip44;
@@ -164,7 +65,6 @@ class NetworkInfo extends Equatable {
   NetworkInfo({
     required this.bech32Hrp,
     required this.lcdInfo,
-    required this.grpcInfo,
     required this.slip44,
   });
 
@@ -176,7 +76,6 @@ class NetworkInfo extends Equatable {
     return NetworkInfo(
       bech32Hrp: bech32Hrp,
       lcdInfo: LCDInfo(host: host),
-      grpcInfo: GRPCInfo(host: host),
       slip44: slip44,
     );
   }
@@ -189,29 +88,11 @@ class NetworkInfo extends Equatable {
     return _$NetworkInfoToJson(this);
   }
 
-  /// Returns the ClientChannel that should be used to connect
-  /// to the gRPC endpoint.
-  GrpcOrGrpcWebClientChannel get gRPCChannel {
-    return grpcInfo.getChannel();
-  }
-
-  /// Returns the endpoint of the REST APIs that should be used to perform
-  /// legacy queries.
-  String get restEndpoint {
-    return lcdInfo.fullUrl;
-  }
-
   @override
-  List<Object> get props {
-    return [bech32Hrp, lcdInfo, grpcInfo];
-  }
+  List<Object?> get props => [bech32Hrp, lcdInfo, slip44];
 
   @override
   String toString() {
-    return '{ '
-        'bech32: $bech32Hrp, '
-        'lcdInfo: $lcdInfo, '
-        'grpcInfo: $grpcInfo '
-        '}';
+    return 'NetworkInfo {bech32Hrp: $bech32Hrp, lcdInfo: $lcdInfo, slip44: $slip44}';
   }
 }

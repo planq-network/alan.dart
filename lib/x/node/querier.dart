@@ -1,28 +1,23 @@
-import 'package:alan/proto/cosmos/base/tendermint/v1beta1/export.dart'
-    as tendermint;
-import 'package:alan/proto/tendermint/p2p/types.pb.dart';
-import 'package:grpc/grpc_or_grpcweb.dart' as grpc;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 /// Allows to query a full node for its information.
 class NodeQuerier {
-  final tendermint.ServiceClient _client;
+  final String lcdEndpoint;
 
-  NodeQuerier({required tendermint.ServiceClient client}) : _client = client;
-
-  /// Builds a new [NodeQuerier] given a [ClientChannel].
-  factory NodeQuerier.build(grpc.GrpcOrGrpcWebClientChannel channel) {
-    return NodeQuerier(client: tendermint.ServiceClient(channel));
-  }
+  NodeQuerier({required this.lcdEndpoint});
 
   /// Queries the node info of the chain based on the given [lcdEndpoint].
-  Future<DefaultNodeInfo> getNodeInfo() async {
-    final request = tendermint.GetNodeInfoRequest();
-
-    final response = await _client.getNodeInfo(request);
-    if (!response.hasDefaultNodeInfo()) {
+  Future<Map<String, dynamic>> getNodeInfo() async {
+    final url = Uri.parse('$lcdEndpoint/node_info');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load node info');
+    }
+    final data = json.decode(response.body);
+    if (data == null || data['default_node_info'] == null) {
       throw Exception('Invalid node info response');
     }
-
-    return response.defaultNodeInfo;
+    return data['default_node_info'];
   }
 }

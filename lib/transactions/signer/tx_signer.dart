@@ -1,9 +1,9 @@
 import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:alan/alan.dart';
 import 'package:alan/proto/cosmos/crypto/secp256k1/export.dart' as secp256;
 import 'package:alan/proto/ethermint/crypto/v1/ethsecp256k1/export.dart' as ethsecp256k1;
-import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:http/http.dart' as http;
 import 'package:protobuf/protobuf.dart';
 
@@ -19,21 +19,18 @@ class TxSigner {
   })  : _authQuerier = authQuerier,
         _nodeQuerier = nodeQuerier;
 
-  /// Builds a new [TxSigner] from a given gRPC client channel and HTTP client.
-  factory TxSigner.build(
-    GrpcOrGrpcWebClientChannel clientChannel,
-    http.Client httpClient,
-  ) {
+  /// Builds a new [TxSigner] from einem LCD-Endpoint.
+  factory TxSigner.fromLcdEndpoint(String lcdEndpoint) {
     return TxSigner(
-      authQuerier: AuthQuerier.build(clientChannel),
-      nodeQuerier: NodeQuerier.build(clientChannel),
+      authQuerier: AuthQuerier(lcdEndpoint: lcdEndpoint),
+      nodeQuerier: NodeQuerier(lcdEndpoint: lcdEndpoint),
     );
   }
 
   /// Builds a new [TxSigner] from the given [NetworkInfo].
   factory TxSigner.fromNetworkInfo(NetworkInfo info) {
-    final httpClient = http.Client();
-    return TxSigner.build(info.gRPCChannel, httpClient);
+    final lcdEndpoint = info.lcdInfo.fullUrl;
+    return TxSigner.fromLcdEndpoint(lcdEndpoint);
   }
 
   /// Creates a new [Tx] object containing the given [msgs] and signs it using
@@ -69,16 +66,24 @@ class TxSigner {
 
     // Get the public key from the account, or generate it if the
     // chain does not have it yet
-    var pubKey = account.pubKey;
-
-    if (pubKey.value.isNotEmpty != true) {
-      if(account.runtimeType == EthAccount) {
-        final ethsecp256Key = ethsecp256k1.PubKey.create()
-          ..key = wallet.publicKey;
+    var pubKey;
+    if (account['pub_key'] != null && account['pub_key']['key'] != null && (account['pub_key']['key'] as String).isNotEmpty) {
+      // PubKey aus base64-String erzeugen
+      final pubKeyBytes = base64Decode(account['pub_key']['key']);
+      if (account['@type'] != null && account['@type'].toString().contains('ethsecp256k1')) {
+        final ethsecp256Key = ethsecp256k1.PubKey.create()..key = pubKeyBytes;
         pubKey = Codec.serialize(ethsecp256Key);
       } else {
-        final secp256Key = secp256.PubKey.create()
-          ..key = wallet.publicKey;
+        final secp256Key = secp256.PubKey.create()..key = pubKeyBytes;
+        pubKey = Codec.serialize(secp256Key);
+      }
+    } else {
+      // Fallback: PubKey aus Wallet nehmen
+      if (account['@type'] != null && account['@type'].toString().contains('ethsecp256k1')) {
+        final ethsecp256Key = ethsecp256k1.PubKey.create()..key = wallet.publicKey;
+        pubKey = Codec.serialize(ethsecp256Key);
+      } else {
+        final secp256Key = secp256.PubKey.create()..key = wallet.publicKey;
         pubKey = Codec.serialize(secp256Key);
       }
     }
@@ -97,7 +102,7 @@ class TxSigner {
     var sig = SignatureV2(
       pubKey: pubKey,
       data: sigData,
-      sequence: account.sequence,
+      sequence: parseLongInt(BigInt.parse(account['sequence'].toString()).toString()),
     );
 
     // Create the transaction builder
@@ -113,9 +118,9 @@ class TxSigner {
     // Generate the bytes to be signed.
     final handler = config.signModeHandler();
     final signerData = SignerData(
-      chainId: nodeInfo.network,
-      accountNumber: account.accountNumber,
-      sequence: account.sequence,
+      chainId: nodeInfo['network'],
+      accountNumber: parseLongInt(BigInt.parse(account['account_number'].toString()).toString()),
+      sequence: parseLongInt(BigInt.parse(account['sequence'].toString()).toString()),
     );
     final bytesToSign = handler.getSignBytes(signMode, signerData, tx.getTx());
 
@@ -127,7 +132,7 @@ class TxSigner {
     sig = SignatureV2(
       pubKey: pubKey,
       data: sigData,
-      sequence: account.sequence,
+      sequence: parseLongInt(BigInt.parse(account['sequence'].toString()).toString()),
     );
     tx.setSignatures([sig]);
 

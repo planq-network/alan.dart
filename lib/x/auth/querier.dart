@@ -1,31 +1,27 @@
+import 'dart:convert';
 import 'package:alan/alan.dart';
-import 'package:alan/proto/cosmos/auth/v1beta1/export.dart' as auth;
-import 'package:grpc/grpc_or_grpcweb.dart' as grpc;
+import 'package:http/http.dart' as http;
 
 /// Allows to query the x/auth module endpoints easily.
 class AuthQuerier {
-  final auth.QueryClient _client;
+  final String lcdEndpoint;
 
-  AuthQuerier({required auth.QueryClient client}) : _client = client;
-
-  /// Builds a new [AuthQuerier] given a [ClientChannel].
-  factory AuthQuerier.build(grpc.GrpcOrGrpcWebClientChannel channel) {
-    return AuthQuerier(client: auth.QueryClient(channel));
-  }
+  AuthQuerier({required this.lcdEndpoint});
 
   /// Reads the account endpoint and retrieves the details of the account
   /// having the given [address] from it.
   /// If no account with the specified [address] is found, returns `null`
   /// instead.
-  Future<AccountI?> getAccountData(String address) async {
-    final request = auth.QueryAccountRequest.create()..address = address;
-
-    final response = await _client.account(request);
-    if (!response.hasAccount()) {
+  Future<Map<String, dynamic>?> getAccountData(String address) async {
+    final url = Uri.parse('$lcdEndpoint/cosmos/auth/v1beta1/accounts/$address');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
       return null;
     }
-
-    final account = Codec.deserializeAccount(response.account);
-    return account.address == address ? account : null;
+    final data = json.decode(response.body);
+    if (data == null || data['account'] == null) {
+      return null;
+    }
+    return data['account'];
   }
 }

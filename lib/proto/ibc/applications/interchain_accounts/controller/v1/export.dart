@@ -3,5 +3,5 @@ export 'controller.pbenum.dart';
 export 'controller.pbjson.dart';
 export 'query.pb.dart';
 export 'query.pbenum.dart';
-export 'query.pbgrpc.dart';
+
 export 'query.pbjson.dart';
